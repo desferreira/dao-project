@@ -1,6 +1,7 @@
 package app;
 
 import db.DB;
+import model.entities.Department;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,6 +14,8 @@ public class App {
         Statement st = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
+        Department dp = new Department(1, "Diego");
+        System.out.println(dp);
 
     }
 }
