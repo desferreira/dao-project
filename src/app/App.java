@@ -8,6 +8,7 @@ import model.entities.Seller;
 
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 
@@ -29,6 +30,14 @@ public class App {
         for (Seller s : sellers){
             System.out.println(s);
         }
+
+        System.out.println("==== TEST 4: Insert seller");
+        sellerDao.insert(new Seller("Insert", "Insert@hotmail.com",  new Date(), 2500.0, new Department(1, "Computers")));
+
+        System.out.println("==== TEST 5: Update seller");
+        Seller old = sellerDao.findById(6);
+        old.setName("Wallesca");
+        sellerDao.update(old);
 
     }
 }
