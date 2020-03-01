@@ -6,10 +6,7 @@ import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 
 public class SellerDaoJDBC implements SellerDao {
@@ -48,16 +45,8 @@ public class SellerDaoJDBC implements SellerDao {
             ps.setInt(1, id);
             rs = ps.executeQuery();
             if (rs.next()){
-                Department dep = new Department();
-                dep.setId(rs.getInt("DepartmentId"));
-                dep.setName(rs.getString("DepName"));
-                Seller obj = new Seller();
-                obj.setId(rs.getInt("Id"));
-                obj.setBaseSalary(rs.getDouble("BaseSalary"));
-                obj.setBirthDate(rs.getDate("BirthDate"));
-                obj.setEmail(rs.getString("Email"));
-                obj.setName(rs.getString("Name"));
-                obj.setDepartment(dep);
+                Department dp = this.instantiateDepartment(rs);
+                Seller obj = this.instantiateSeller(rs, dp);
                 return obj;
             }
             return null;
@@ -69,6 +58,24 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeStatement(ps);
             DB.closeResultSet(rs);
         }
+    }
+
+    private Seller instantiateSeller(ResultSet rs, Department dp) throws SQLException {
+        Seller sl = new Seller();
+        sl.setId(rs.getInt("Id"));
+        sl.setBaseSalary(rs.getDouble("BaseSalary"));
+        sl.setBirthDate(rs.getDate("BirthDate"));
+        sl.setEmail(rs.getString("Email"));
+        sl.setName(rs.getString("Name"));
+        sl.setDepartment(dp);
+        return sl;
+    }
+
+    private Department instantiateDepartment(ResultSet rs) throws SQLException {
+        Department dp = new Department();
+        dp.setId(rs.getInt("DepartmentId"));
+        dp.setName(rs.getString("DepName"));
+        return dp;
     }
 
     @Override
