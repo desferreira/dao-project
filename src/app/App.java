@@ -19,7 +19,13 @@ public class App {
         System.out.println(sl);
 
         System.out.println("==== TEST 2: Find seller by department");
-        List<Seller> sellers = sellerDao.findByDepartment(new Department(1, "Computers"));
+        List<Seller> sellersByDepartment = sellerDao.findByDepartment(new Department(1, "Computers"));
+        for (Seller s : sellersByDepartment){
+            System.out.println(s);
+        }
+
+        System.out.println("==== TEST 3: Find all seller");
+        List<Seller> sellers = sellerDao.findAll();
         for (Seller s : sellers){
             System.out.println(s);
         }
