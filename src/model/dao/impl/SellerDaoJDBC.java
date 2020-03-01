@@ -5,6 +5,7 @@ import db.DbException;
 import model.dao.SellerDao;
 import model.entities.Department;
 import model.entities.Seller;
+import org.postgresql.core.SqlCommand;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -83,7 +84,24 @@ public class SellerDaoJDBC implements SellerDao {
 
     @Override
     public void deleteById(Integer id) {
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("delete from seller " +
+                    "where Id = ?"
+            );
 
+            ps.setInt(1, id);
+            int rowsAffected = ps.executeUpdate();
+
+            if (rowsAffected > 0){
+                System.out.println("Foram deletadas "+rowsAffected+" linhas");
+            }else{
+                throw new DbException("Erro inesperado. Nenhuma linha afetada");
+            }
+
+        }catch (SQLException e ){
+            throw new DbException(e.getMessage());
+        }
     }
 
     @Override
